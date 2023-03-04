@@ -4,17 +4,14 @@ spring:
       client:
         registration:
           discord:
-            client-id: id
-            client-secret: secret
-            clientAuthenticationMethod: post
-            authorizationGrantType: authorization_code
-            scope:
-              - identify
-            redirectUriTemplate: "{baseUrl}/login/oauth2/code/discord"
-            clientName: FourScouts client
+            client-id: 1080867860341084160
+            client-secret: ujaouDPHCrPOiwhxssdDNSAkU46RUuIs
+            scope: identify
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8080/login/oauth2/code/discord"
         provider:
           discord:
-            authorizationUri: https://discordapp.com/api/oauth2/authorize
-            tokenUri: https://discordapp.com/api/oauth2/token
-            userInfoUri: https://discordapp.com/api/users/@me
-            usernameAttribute: username
+            authorization-uri: https://discord.com/oauth2/authorize
+            token-uri: https://discord.com/api/v10/oauth2/token
+            user-info-uri: https://discord.com/api/v10/users/@me
+            user-name-attribute: username
