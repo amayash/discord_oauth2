@@ -4,11 +4,11 @@ spring:
       client:
         registration:
           discord:
-            client-id: 1080867860341084160
-            client-secret: ujaouDPHCrPOiwhxssdDNSAkU46RUuIs
+            client-id: ${ clientId }
+            client-secret: ${ clientSecret }
             scope: identify
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8080/login/oauth2/code/discord"
+            redirect-uri: "http://localhost:3000/"
         provider:
           discord:
             authorization-uri: https://discord.com/oauth2/authorize
