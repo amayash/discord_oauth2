@@ -34,17 +34,18 @@ public class WebSecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/", "/getuser", "/login").permitAll()
+                        .requestMatchers("/", "/login").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> {
                     csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                     csrf.csrfTokenRequestHandler(csrfRequestHandler);
+
                 })
                 .logout(logout ->
                         logout.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value())))
                 .oauth2Login(oauth2 -> {
                     oauth2.userInfoEndpoint(user -> user.userService(this.oAuth2UserService));
-                    oauth2.defaultSuccessUrl("http://localhost:3000/login", true);
+                    oauth2.defaultSuccessUrl("http://localhost:3000/", true);
                 })
                 .build();
     }

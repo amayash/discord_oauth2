@@ -1,33 +1,43 @@
-import React, {useEffect, useState} from "react";
-import {BrowserRouter, Link, Route, Routes} from 'react-router-dom';
+import React, { useState} from "react";
+import {BrowserRouter, Outlet, useRoutes} from 'react-router-dom';
 import Registration from "./pages/Registration";
-import PrivateRoutes from "./pages/components/PrivateRoutes";
 import MainPage from "./pages/MainPage";
+import Header from "./pages/components/Header";
+function Router(props) {
+    return useRoutes(props.rootRoute);
+}
 function App() {
-    const [token, setToken] = useState(null);
     const [data, setData] = useState([]);
-
     function getUser() {
-        fetch("http://localhost:8080/users/@me")
+
+        fetch("http://localhost:8080/")
             .then(r=>r.json())
             .then(d=>setData(d))
     }
-    function removeToken() {
-        localStorage.removeItem('token')
-        setToken(null)
+    const routes = [
+        { index: true, element:
+                <MainPage data={data} getUser={getUser}/> },
+        { path: '*', element:
+                <MainPage data={data} getUser={getUser}/>},
+        { path: '/login', element: <Registration />, label: 'Регистрация' },
+        { path: 'http://localhost:8080/logout', label: 'Выход' }
+    ];
+    const links = routes.filter(route => route.hasOwnProperty('label'));
+    const rootRoute = [
+        { path: '/', element: render(links), children: routes }
+    ];
+    function render(links) {
+        return (
+            <>
+                <Header links={links} />
+                <Outlet />
+            </>
+        );
     }
+
     return (
         <BrowserRouter>
-            <Routes>
-                <Route element={<PrivateRoutes token={token}/>}>
-                    <Route element={<MainPage
-                        removeToken={removeToken}
-                        data={data}
-                        getUser={getUser}/>} path="*">
-                    </Route>
-                </Route>
-                <Route element={<Registration token={token} setToken={setToken}/>} path="/login" />
-            </Routes>
+            <Router rootRoute={ rootRoute } />
         </BrowserRouter>
     );
 }
