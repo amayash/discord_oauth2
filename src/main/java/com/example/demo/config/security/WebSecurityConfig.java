@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -33,10 +34,8 @@ public class WebSecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/", "/login/**").permitAll()
+                        .requestMatchers("/", "/getuser", "/login").permitAll()
                         .anyRequest().authenticated())
-                /*.exceptionHandling(handler -> handler
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))*/
                 .csrf(csrf -> {
                     csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                     csrf.csrfTokenRequestHandler(csrfRequestHandler);
@@ -45,17 +44,16 @@ public class WebSecurityConfig {
                         logout.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value())))
                 .oauth2Login(oauth2 -> {
                     oauth2.userInfoEndpoint(user -> user.userService(this.oAuth2UserService));
-                    oauth2.defaultSuccessUrl("/users/@me", true);
+                    oauth2.defaultSuccessUrl("http://localhost:3000/login", true);
                 })
                 .build();
-
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000/*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         configuration.addAllowedHeader("*");
 

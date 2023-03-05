@@ -10,10 +10,17 @@ import com.example.demo.config.security.oauth2.DiscordOAuth2User;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    ResponseEntity<DiscordOAuth2User> user = null;
 
     @GetMapping("/@me")
     public ResponseEntity<DiscordOAuth2User> me(@AuthenticationPrincipal DiscordOAuth2User user) {
+        this.user = ResponseEntity.ok(user);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/getuser")
+    public ResponseEntity<DiscordOAuth2User> getuser() {
+        return user;
     }
 
 }

@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
 import {Navigate, Outlet, useParams} from "react-router-dom";
 
-const PrivateRoutes = () => {
-
-    let auth = {'token': false}
+const PrivateRoutes = ({ token }) => {
     return (
-        auth.code ? <Outlet/> : <Navigate to="/login" replace={true}/>
+        token!=null || token=='' ? <Outlet/> : <Navigate to="/login" replace={true}/>
     );
 };
 
