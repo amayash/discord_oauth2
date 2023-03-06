@@ -41,8 +41,10 @@ public class WebSecurityConfig {
                     csrf.csrfTokenRequestHandler(csrfRequestHandler);
 
                 })
-                .logout(logout ->
-                        logout.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value())))
+                .logout(logout -> {
+                        logout.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpStatus.OK.value()));
+                        logout.logoutSuccessUrl("http://localhost:3000/login");
+                })
                 .oauth2Login(oauth2 -> {
                     oauth2.userInfoEndpoint(user -> user.userService(this.oAuth2UserService));
                     oauth2.defaultSuccessUrl("http://localhost:3000/", true);
