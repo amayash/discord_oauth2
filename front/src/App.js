@@ -9,11 +9,14 @@ function Router(props) {
 function App() {
     const [data, setData] = useState([]);
     function getUser() {
-
         fetch("http://localhost:8080/users/@me",     {
-            method: 'GET',
-            credentials: 'include',
+                method: 'GET',
+                credentials: 'include',
             }
+        )
+            .then(r=>r.json())
+            .then(d=>setData(d))
+    }
     const routes = [
         { index: true, element:
                 <MainPage data={data} getUser={getUser}/> },
