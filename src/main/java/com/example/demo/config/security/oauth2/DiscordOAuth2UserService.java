@@ -29,11 +29,10 @@ public class DiscordOAuth2UserService implements OAuth2UserService<OAuth2UserReq
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", request.getAccessToken().getTokenValue()));
-
+        System.out.println(headers);
         ParameterizedTypeReference<Map<String, Object>> userReference = new ParameterizedTypeReference<>() {};
         ResponseEntity<Map<String, Object>> userExchange = this.template.exchange(userInfoUrl, HttpMethod.GET, new HttpEntity<>(headers), userReference);
         Map<String, Object> attributes = userExchange.getBody();
-
         return new DiscordOAuth2User(attributes);
     }
 

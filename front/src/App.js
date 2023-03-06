@@ -3,14 +3,23 @@ import {BrowserRouter, Outlet, useRoutes} from 'react-router-dom';
 import Registration from "./pages/Registration";
 import MainPage from "./pages/MainPage";
 import Header from "./pages/components/Header";
+import { getCookie } from 'xsrf-cookie';
+import {withCookies} from "react-cookie";
 function Router(props) {
     return useRoutes(props.rootRoute);
 }
 function App() {
     const [data, setData] = useState([]);
+    // csrfToken=  cookies.get('XSRF-TOKEN');
+    const csrfToken = getCookie('X-XSRF-TOKEN');
     function getUser() {
+        console.log(csrfToken)
+        fetch("http://localhost:8080/users/@me",     {
+            method: 'GET',
+            credentials: 'include',
+            }
 
-        fetch("http://localhost:8080/")
+        )
             .then(r=>r.json())
             .then(d=>setData(d))
     }
