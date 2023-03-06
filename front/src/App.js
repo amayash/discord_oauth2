@@ -14,8 +14,6 @@ function App() {
                 credentials: 'include',
             }
         )
-            .then(r=>r.json())
-            .then(d=>setData(d))
     }
     const routes = [
         { index: true, element:
