@@ -1,3 +1,12 @@
 body {
-    background: lightgray;
+    background: #666666;
+}
+.profile_bg {
+    max-width: 400px !important;
+}
+a:hover {
+    color: white !important;
+}
+.inner {
+    margin-top: 10%;
 }

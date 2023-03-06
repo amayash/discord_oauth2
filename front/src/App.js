@@ -7,20 +7,11 @@ function Router(props) {
     return useRoutes(props.rootRoute);
 }
 function App() {
-    const [data, setData] = useState([]);
-    function getUser() {
-        fetch("http://localhost:8080/users/@me",     {
-                method: 'GET',
-                credentials: 'include',
-            }
-        )
-            .then(r=>r.json())
-    }
     const routes = [
         { index: true, element:
-                <MainPage data={data} getUser={getUser}/> },
+                <MainPage /> },
         { path: '*', element:
-                <MainPage data={data} getUser={getUser}/>},
+                <MainPage />},
         { path: '/login', element: <Registration />, label: 'Регистрация' },
         { path: 'http://localhost:8080/logout', label: 'Выход' }
     ];
